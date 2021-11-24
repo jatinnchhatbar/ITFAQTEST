@@ -1,0 +1,58 @@
+﻿@page
+@model ITFAQTest.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Product Catalogue";
+}
+
+<h1>Product Catalogue</h1>
+
+@*<p>
+        <a asp-page="Create">Create New</a>
+    </p>*@
+
+<div class="jumbotron">
+    <div class="row">
+        @foreach (var item in Model.Product)
+        {
+            <div class="col-6 card">
+                <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.ImagePath)" alt="Card image" style="width:100%">
+                <div class="card-body">
+                    <h4>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </h4>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </p>
+                    <h3>
+                        Price: @Html.DisplayFor(modelItem => item.Price)
+                    </h3>
+                    <button class="addtocart btn btn-primary" data-productid="@Html.DisplayFor(modelItem => item.Id)">
+                        <i class="fa fa-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".addtocart").click(addtocart)
+        });
+        var addtocart = function (e) {
+            var $target = $(e.target);
+            
+            var product = { id: $target.attr("data-productid") };
+
+            $.post("/api/products/AddToCart",
+                product,
+                function (data, status) {
+                    alert("Item added to the cart successfully");
+                });
+        }
+    </script>
+}

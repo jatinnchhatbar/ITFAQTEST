@@ -1,0 +1,51 @@
+﻿@page
+@model ITFAQTest.Pages.Cart.IndexModel
+
+@{
+    ViewData["Title"] = "Cart Items";
+}
+
+<h1>Cart Items</h1>
+
+@*<p>
+    <a asp-page="Create">Create New</a>
+</p>*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.CartItem[0].p.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.CartItem[0].c.Quantity)</th>
+            <th>@Html.DisplayNameFor(model => model.CartItem[0].c.Amount)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CartItem)
+        {
+        <tr>
+
+            <td>
+                @item.p.Name
+            </td>
+            <td>
+                @item.c.Quantity
+            </td>
+            <td>
+                @item.c.Amount
+            </td>
+            <td>
+                <a asp-page="./Delete" asp-route-id="@item.c.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td>&nbsp;</td>
+            <td>Total</td>
+            <td>@Model.CartItem.Sum(c => c.c.Amount) </td>
+        </tr>
+    </tfoot>
+</table>
